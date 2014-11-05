@@ -19,14 +19,14 @@ import json
 
 import webapp2
 
-from service import get_latest_videos_from_channel
+from service import get_latest_videos_from_channel_ids
 from util import get_json_from_request_body
 
 
 class YoutubeSearchHandler(webapp2.RequestHandler):
     def post(self):
         search_options = get_json_from_request_body(self.request)
-        videos = get_latest_videos_from_channel(search_options)
+        videos = get_latest_videos_from_channel_ids(search_options)
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write(json.dumps(videos))
 
