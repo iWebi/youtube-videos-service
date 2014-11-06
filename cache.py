@@ -17,6 +17,10 @@ class CacheElement(object):
     def date(self):
         return self._date
 
+    @property
+    def data(self):
+        return self._data
+
 
 class Cache(object):
     def __init__(self):
@@ -27,13 +31,13 @@ class Cache(object):
         return data
 
     def get_from_cache(self, key):
-        data = self._cache.get(key, None)
-        if data:
+        cached_element = self._cache.get(key, None)
+        if cached_element:
             # TODO: add logging
             current_time = datetime.utcnow()
-            cached_time = data.date
+            cached_time = cached_element.date
             elapsed_seconds = (current_time - cached_time).seconds
-            if elapsed_seconds < data.duration_in_seconds:
-                return data
+            if elapsed_seconds < cached_element.duration_in_seconds:
+                return cached_element.data
             else:
                 return None

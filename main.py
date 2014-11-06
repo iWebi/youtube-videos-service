@@ -19,7 +19,7 @@ import json
 
 import webapp2
 
-from service import get_latest_videos_from_channel_ids
+from video_search_service import get_latest_videos_from_channel_ids
 from util import get_json_from_request_body
 
 
@@ -31,11 +31,23 @@ class YoutubeSearchHandler(webapp2.RequestHandler):
         self.response.write(json.dumps(videos))
 
 
+class YoutubeChannelIdsHandler(webapp2.RequestHandler):
+    def post(self):
+        user_names = get_json_from_request_body(self.request)["user_names"]
+        response_data = None
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps(response_data))
+
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('Hello world!')
 
 
 app = webapp2.WSGIApplication(
-    [('/', MainHandler), ('/youtube/channel_videos', YoutubeSearchHandler)],
+    [
+        ('/', MainHandler),
+        ('/youtube/channel_videos', YoutubeSearchHandler),
+        ('/youtube/channel_ids', YoutubeChannelIdsHandler)
+    ],
     debug=True)
