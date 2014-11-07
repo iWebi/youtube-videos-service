@@ -1,0 +1,52 @@
+{
+    "items": [
+        {
+            "kind": "youtube#video",
+            "etag": "\"PSjn-HSKiX6orvNhGZvglLI2lvk/W3g9KY789D-XV_jFp6K6Y0sYjsI\"",
+            "id": "g-F9zeCvpdA",
+            "contentDetails": {
+                "duration": "PT1H51M16S",
+                "dimension": "2d",
+                "definition": "hd",
+                "caption": "false",
+                "licensedContent": true
+            }
+        },
+        {
+            "kind": "youtube#video",
+            "etag": "\"PSjn-HSKiX6orvNhGZvglLI2lvk/y7oD8KBdE7kJU_94ngb6pDETX9o\"",
+            "id": "HRcUbnHxWLE",
+            "contentDetails": {
+                "duration": "PT48M",
+                "dimension": "2d",
+                "definition": "hd",
+                "caption": "false",
+                "licensedContent": true
+            }
+        },
+        {
+            "kind": "youtube#video",
+            "etag": "\"PSjn-HSKiX6orvNhGZvglLI2lvk/W3g9KY789D-XV_jFp6K6Y0sYjsI\"",
+            "id": "gf-F9zeCvpdA",
+            "contentDetails": {
+                "duration": "PT1H51M16S",
+                "dimension": "2d",
+                "definition": "hd",
+                "caption": "false",
+                "licensedContent": true
+            }
+        },
+        {
+            "kind": "youtube#video",
+            "etag": "\"PSjn-HSKiX6orvNhGZvglLI2lvk/y7oD8KBdE7kJU_94ngb6pDETX9o\"",
+            "id": "nHRcUbnHxWLE",
+            "contentDetails": {
+                "duration": "PT48M",
+                "dimension": "2d",
+                "definition": "hd",
+                "caption": "false",
+                "licensedContent": true
+            }
+        }
+    ]
+}

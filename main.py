@@ -24,10 +24,11 @@ from util import get_json_from_request_body
 
 
 class YoutubeSearchHandler(webapp2.RequestHandler):
-    def post(self):
-        search_options = get_json_from_request_body(self.request)
-        videos = get_latest_videos_from_channel_ids(search_options)
+    def get(self):
+        channel_ids=json.loads(self.request.get('channelIds'))
+        videos = get_latest_videos_from_channel_ids(channel_ids)
         self.response.headers['Content-Type'] = 'application/json'
+        self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.write(json.dumps(videos))
 
 

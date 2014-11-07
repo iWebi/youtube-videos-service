@@ -22,31 +22,28 @@ class Video(dict):
     before sending to UI
     """
 
-    def __init__(self, id=None, publishedAt=None, thumbnail=None, title=None, duration=None):
+    def __init__(self, id=None, publishedAt=None, thumbnail=None, title=None):
         self['id'] = id
         self['thumbnail'] = thumbnail
         self['title'] = title
-        self['duration'] = duration
         self['publishedAt'] = publishedAt
 
 
 # strip off unused properties of the video entry in youtube api response. Check the same response returned by
-# youtube in sample_response.json
+# youtube in sample_channel_videos_response.json
 # Also handles any filter requirements
 def process_video_records(channel_videos):
     items = channel_videos.get("items", [])
-    # video_durations = get_video_durations(items)
+    video_durations = get_video_durations(items)
     processed_videos = []
     for item in items:
-        # duration = video_durations[item['id']['videoId']]
-        duration = 2500
+        duration = video_durations[item['id']['videoId']]
         # consider videos longer than 40min
         if duration > 2400:
             processed_videos.append(
                 Video(id=item.id.videoId,
                       thumbnail=item.snippet.thumbnails.default.url,
                       title=item.snippet.title,
-                      duration=duration,
                       publishedAt=item.snippet.publishedAt
                 )
             )
@@ -65,15 +62,14 @@ def _search_videos(channel_id, max_results):
         maxResults=max_results).execute()
 
 
-def get_latest_videos_from_channel_ids(search_options):
-    channel_ids = search_options['channelIds']
-    max_results = search_options.get('maxResults', 50)
+def get_latest_videos_from_channel_ids(channel_ids):
+    max_results = 50
     videos = []
     for channel_id in channel_ids:
         channel_videos = VIDEOS_CACHE.get_from_cache(channel_id)
         if channel_videos is None:
             # channel_videos = _search_videos(channel_id=channel_id, max_results=max_results)
-            channel_videos = edict(load_file('sample_response.json'))
+            channel_videos = edict(load_file('sample_channel_videos_response.json'))
             channel_videos = VIDEOS_CACHE.add_to_cache(key=channel_id, data=process_video_records(channel_videos),
                                                        duration=FOUR_HOURS_IN_SECONDS)
         videos.append(channel_videos)
@@ -86,9 +82,10 @@ def get_video_durations(channel_video_items):
     for item in channel_video_items:
         video_ids.append(item['id']['videoId'])
     id_param = ','.join(video_ids)
-    content_details = youtube.videos().list(part="contentDetails", id=id_param).execute().get("items", [])
+    # content_details = youtube.videos().list(part="contentDetails", id=id_param).execute().get("items", [])
+    content_details = edict(load_file('sample_durations_response.json')).items
     duration_response_data = {}
     for content in content_details:
-        duration_response_data[content['id']] = isodate.parse_duration(
-            content['contentDetails']['duration']).total_seconds()
+        duration_response_data[content.id] = isodate.parse_duration(
+            content.contentDetails.duration).total_seconds()
     return duration_response_data
