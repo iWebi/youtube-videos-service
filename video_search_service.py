@@ -2,6 +2,7 @@ from apiclient.discovery import build
 from cache import Cache
 import isodate
 from easydict import EasyDict as edict
+from dateutil.parser import parse
 # Set DEVELOPER_KEY to the "API key" value from the "Access" tab of the
 # Google APIs Console http://code.google.com/apis/console#access
 # Please ensure that you have enabled the YouTube Data API for your
@@ -62,8 +63,13 @@ def process_video_records(channel_videos):
                       channelTitle=item.snippet.channelTitle
                 )
             )
-    return processed_videos
+    #return only 10 latest videos per channel
+    return sort_and_limit_to(processed_videos, 10)
 
+
+def sort_and_limit_to(videos,limit_count=10):
+    videos.sort(key=lambda video: parse(video['publishedAt']), reverse=True)
+    return videos[0:limit_count]
 
 def _search_videos(channel_id, max_results):
     return youtube.search().list(

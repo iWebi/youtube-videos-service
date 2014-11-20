@@ -18,13 +18,9 @@ handlers:
 - url: /resources
   static_dir : static/resources
 
-- url: /app.js
-  static_files : static/app.js
-  upload: static/app.js
-
-- url: /app.json
-  static_files : static/app.json
-  upload: static/app.json
+- url: /(.*\.(js|json))$
+  static_files: static/\1
+  upload: static/.*\.(js|json)$
 
 - url: /
   static_files: static/index.html
