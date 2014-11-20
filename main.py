@@ -47,8 +47,8 @@ class MainHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication(
     [
-        ('/', MainHandler),
-        ('/youtube/channel_videos', YoutubeSearchHandler),
-        ('/youtube/channel_ids', YoutubeChannelIdsHandler)
+        ('/api', MainHandler),
+        ('/api/youtube/channel_videos', YoutubeSearchHandler),
+        ('/api/youtube/channel_ids', YoutubeChannelIdsHandler)
     ],
     debug=True)
