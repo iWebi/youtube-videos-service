@@ -22,6 +22,10 @@ handlers:
   static_files : static/app.js
   upload: static/app.js
 
+- url: /app.json
+  static_files : static/app.json
+  upload: static/app.json
+
 - url: /
   static_files: static/index.html
   upload: static/index.html
